@@ -48,7 +48,7 @@ async function main() {
   const config = await loadConfig(Deno.args);
 
   const [command, ...commandArgs] = config.server;
-
+  console.log("Starting MCP server:", command, ...commandArgs);
   const mcpServerTransport = new StdioClientTransport({
     command: command,
     args: commandArgs,
@@ -72,7 +72,6 @@ async function main() {
   await gateway.start();
 
   const shutdown = async () => {
-    console.log("Received signal, shutting down gracefully...");
     if (gateway) {
       try {
         await gateway.stop();

@@ -2,6 +2,7 @@ import { z } from "npm:zod";
 import { deepMerge } from "https://deno.land/std@0.224.0/collections/deep_merge.ts";
 import { load as parseYaml } from "npm:js-yaml";
 import { parseArgs, type ParseOptions } from "@std/cli/parse-args";
+import { EncryptionMode } from "@contextvm/sdk/core";
 
 const serverInfoSchema = z.object({
   name: z.string().optional(),
@@ -10,16 +11,20 @@ const serverInfoSchema = z.object({
 });
 
 export const configSchema = z.object({
-  server: z.string().min(1, "Server command is required"),
+  server: z.array(z.string()).min(1, "Server command is required"),
   privateKey: z.string().min(1, "Private key is required"),
   relays: z.array(z.string()).min(1, "At least one relay is required"),
   public: z.boolean().optional().default(false),
   serverInfo: serverInfoSchema.optional(),
   allowedPublicKeys: z.array(z.string()).optional(),
   encryptionMode: z
-    .enum(["OPTIONAL", "REQUIRED", "DISABLED"])
+    .enum([
+      EncryptionMode.OPTIONAL,
+      EncryptionMode.REQUIRED,
+      EncryptionMode.DISABLED,
+    ])
     .optional()
-    .default("REQUIRED"),
+    .default(EncryptionMode.OPTIONAL),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -43,7 +48,7 @@ function loadConfigFromEnv(): Partial<Config> {
   const config: Partial<Config> = {};
 
   if (Deno.env.get(ENV_VARS.server)) {
-    config.server = Deno.env.get(ENV_VARS.server);
+    config.server = Deno.env.get(ENV_VARS.server)?.split(" ");
   }
   if (Deno.env.get(ENV_VARS.privateKey)) {
     config.privateKey = Deno.env.get(ENV_VARS.privateKey);
@@ -73,10 +78,9 @@ function loadConfigFromEnv(): Partial<Config> {
       ?.split(",");
   }
   if (Deno.env.get(ENV_VARS.encryptionMode)) {
-    config.encryptionMode = Deno.env.get(ENV_VARS.encryptionMode) as
-      | "OPTIONAL"
-      | "REQUIRED"
-      | "DISABLED";
+    config.encryptionMode = Deno.env.get(
+      ENV_VARS.encryptionMode,
+    ) as EncryptionMode;
   }
 
   return config;
@@ -98,14 +102,13 @@ function loadConfigFromCli(args: string[]): Partial<Config> {
   const cliOptions: ParseOptions = {
     boolean: ["help", "version", "public"],
     string: [
-      "server",
       "private-key",
       "encryption-mode",
       "server-info-name",
       "server-info-picture",
       "server-info-website",
     ],
-    collect: ["relays", "allowed-public-keys"],
+    collect: ["server", "relays", "allowed-public-keys"],
     alias: { h: "help", v: "version" },
   };
 
@@ -113,14 +116,19 @@ function loadConfigFromCli(args: string[]): Partial<Config> {
   const config: Partial<Config> = {};
 
   if (parsedArgs.server) {
-    config.server = Array.isArray(parsedArgs.server)
-      ? parsedArgs.server.join(" ")
-      : parsedArgs.server;
-  }
-
-  const positionalArgs = (parsedArgs._ as string[]).join(" ");
-  if (positionalArgs && !config.server) {
-    config.server = positionalArgs;
+    // If --server is used, take its collected values as the command.
+    // Also, append any remaining positional arguments which belong to the server command.
+    config.server = parsedArgs.server as string[];
+    const positionalArgs = parsedArgs._ as string[];
+    if (positionalArgs.length > 0) {
+      config.server = [...config.server, ...positionalArgs];
+    }
+  } else {
+    // If --server is not used, treat all positional arguments as the server command.
+    const positionalArgs = parsedArgs._ as string[];
+    if (positionalArgs.length > 0) {
+      config.server = positionalArgs;
+    }
   }
 
   if (parsedArgs["private-key"]) config.privateKey = parsedArgs["private-key"];
@@ -130,10 +138,7 @@ function loadConfigFromCli(args: string[]): Partial<Config> {
     config.allowedPublicKeys = parsedArgs["allowed-public-keys"];
   }
   if (parsedArgs["encryption-mode"]) {
-    config.encryptionMode = parsedArgs["encryption-mode"] as
-      | "OPTIONAL"
-      | "REQUIRED"
-      | "DISABLED";
+    config.encryptionMode = parsedArgs["encryption-mode"] as EncryptionMode;
   }
 
   const serverInfo: Partial<z.infer<typeof serverInfoSchema>> = {};

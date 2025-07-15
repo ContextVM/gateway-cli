@@ -1,6 +1,7 @@
 import { assertEquals, assertExists } from "jsr:@std/assert";
 import { loadConfig } from "./config.ts";
 import * as yaml from "npm:js-yaml";
+import { EncryptionMode } from "@contextvm/sdk";
 
 async function withTestContext(testFn: () => Promise<void>) {
   const envVarsToClean = [
@@ -55,7 +56,7 @@ Deno.test("Config Loader", async (t) => {
         Deno.env.set("GW_SERVER_INFO_PICTURE", "https://example.com/logo.png");
         Deno.env.set("GW_SERVER_INFO_WEBSITE", "https://example.com");
         Deno.env.set("GW_ALLOWED_PUBLIC_KEYS", "pubkey1,pubkey2");
-        Deno.env.set("GW_ENCRYPTION_MODE", "REQUIRED");
+        Deno.env.set("GW_ENCRYPTION_MODE", EncryptionMode.REQUIRED);
 
         const config = await loadConfig([]);
 
@@ -71,7 +72,7 @@ Deno.test("Config Loader", async (t) => {
         assertEquals(config.serverInfo.picture, "https://example.com/logo.png");
         assertEquals(config.serverInfo.website, "https://example.com");
         assertEquals(config.allowedPublicKeys, ["pubkey1", "pubkey2"]);
-        assertEquals(config.encryptionMode, "REQUIRED");
+        assertEquals(config.encryptionMode, EncryptionMode.REQUIRED);
       }),
   );
 
@@ -90,7 +91,7 @@ Deno.test("Config Loader", async (t) => {
             website: "https://example.yml",
           },
           allowedPublicKeys: ["pubkey3", "pubkey4"],
-          encryptionMode: "DISABLED",
+          encryptionMode: EncryptionMode.DISABLED,
         };
         const yamlString = yaml.dump(testConfig);
         await Deno.writeTextFile("contextgw.config.yml", yamlString);
@@ -109,7 +110,7 @@ Deno.test("Config Loader", async (t) => {
         assertEquals(config.serverInfo.picture, "https://example.com/logo.yml");
         assertEquals(config.serverInfo.website, "https://example.yml");
         assertEquals(config.allowedPublicKeys, ["pubkey3", "pubkey4"]);
-        assertEquals(config.encryptionMode, "DISABLED");
+        assertEquals(config.encryptionMode, EncryptionMode.DISABLED);
       }),
   );
 
@@ -130,7 +131,7 @@ Deno.test("Config Loader", async (t) => {
           "--allowed-public-keys",
           "pubkey5",
           "--encryption-mode",
-          "OPTIONAL",
+          EncryptionMode.OPTIONAL,
         ];
 
         const config = await loadConfig(args);
@@ -141,7 +142,7 @@ Deno.test("Config Loader", async (t) => {
         assertExists(config.serverInfo);
         assertEquals(config.serverInfo?.name, "cli-server");
         assertEquals(config.allowedPublicKeys, ["pubkey5"]);
-        assertEquals(config.encryptionMode, "OPTIONAL");
+        assertEquals(config.encryptionMode, EncryptionMode.OPTIONAL);
       }),
   );
 
