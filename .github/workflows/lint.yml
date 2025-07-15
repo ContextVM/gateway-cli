@@ -1,4 +1,4 @@
-name: Run Tests
+name: Run Lint
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    name: Run Deno Tests
+    name: Run Deno Lint
     runs-on: ubuntu-latest
 
     steps:
