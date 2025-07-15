@@ -1,0 +1,30 @@
+# Example configuration for the Nostr MCP Gateway CLI
+
+# The command and arguments to start the MCP server.
+server: ["bun", "src/__mocks__/mock-mcp-server.ts"]
+
+# The Nostr private key in hex format.
+privateKey: "your-private-key"
+
+# A list of Nostr relay URLs.
+relays:
+  - "wss://relay.damus.io"
+  - "wss://relay.primal.net"
+
+# Announce the server publicly for discovery.
+public: true
+
+# Optional server information.
+serverInfo:
+  name: "My Awesome Gateway"
+  picture: "https://example.com/logo.png"
+  website: "https://example.com"
+
+# Optional list of allowed public keys.
+allowedPublicKeys:
+  - "pubkey1"
+  - "pubkey2"
+
+# Optional encryption mode.
+# Can be 'OPTIONAL'(default), 'REQUIRED', or 'DISABLED'.
+encryptionMode: "REQUIERD"
