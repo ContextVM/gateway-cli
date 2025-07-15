@@ -3,11 +3,11 @@
   "tasks": {
     "dev": "deno run --watch main.ts",
     "start": "deno run --allow-run --allow-env --allow-net main.ts",
-    "compile": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --output dist/gateway-cli src/main.ts",
+    "compile": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --output dist/gateway-cli main.ts",
     "compile:all": "deno task compile:linux && deno task compile:macos && deno task compile:windows",
-    "compile:linux": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --target x86_64-unknown-linux-gnu --output dist/gateway-cli-linux src/main.ts",
-    "compile:macos": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --target x86_64-apple-darwin --output dist/gateway-cli-macos src/main.ts",
-    "compile:windows": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --target x86_64-pc-windows-msvc --output dist/gateway-cli-windows.exe src/main.ts"
+    "compile:linux": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --target x86_64-unknown-linux-gnu --output dist/gateway-cli-linux main.ts",
+    "compile:macos": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --target x86_64-apple-darwin --output dist/gateway-cli-macos main.ts",
+    "compile:windows": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --target x86_64-pc-windows-msvc --output dist/gateway-cli-windows.exe main.ts"
   },
   "imports": {
     "@contextvm/sdk": "npm:@contextvm/sdk@^0.1.10",
