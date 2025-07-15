@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "tasks": {
     "dev": "deno run --watch main.ts",
-    "start": "deno run --allow-run --allow-env --allow-net --allow-read main.ts",
+    "start": "deno run --allow-run --allow-env --allow-net --allow-read --allow-write main.ts",
     "test": "deno test --allow-read --allow-env --allow-write",
     "compile:linux": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --target x86_64-unknown-linux-gnu --output dist/gateway-cli-linux main.ts",
     "compile:macos": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --allow-sys --target x86_64-apple-darwin --output dist/gateway-cli-macos main.ts",

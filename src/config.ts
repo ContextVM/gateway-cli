@@ -11,12 +11,33 @@ const serverInfoSchema = z.object({
 });
 
 export const configSchema = z.object({
-  server: z.array(z.string()).min(1, "Server command is required"),
-  privateKey: z.string().min(1, "Private key is required"),
-  relays: z.array(z.string()).min(1, "At least one relay is required"),
-  public: z.boolean().optional().default(false),
-  serverInfo: serverInfoSchema.optional(),
-  allowedPublicKeys: z.array(z.string()).optional(),
+  server: z
+    .array(z.string())
+    .min(1)
+    .describe(
+      "The command to start your MCP server (e.g., 'npx -y @mcp/server-echo').",
+    ),
+  privateKey: z.string().min(1).describe(
+    "Your unique private key for signing events.",
+  ),
+  relays: z
+    .array(z.string())
+    .min(1)
+    .describe(
+      "A list of relay URLs to connect to (e.g., 'wss://relay.damus.io').",
+    ),
+  public: z
+    .boolean()
+    .optional()
+    .default(false)
+    .describe("If true, the server will be announced publicly."),
+  serverInfo: serverInfoSchema
+    .optional()
+    .describe("Optional server metadata (name, picture, website)."),
+  allowedPublicKeys: z
+    .array(z.string())
+    .optional()
+    .describe("A comma-separated list of public keys allowed to connect."),
   encryptionMode: z
     .enum([
       EncryptionMode.OPTIONAL,
@@ -24,7 +45,10 @@ export const configSchema = z.object({
       EncryptionMode.DISABLED,
     ])
     .optional()
-    .default(EncryptionMode.OPTIONAL),
+    .default(EncryptionMode.OPTIONAL)
+    .describe(
+      "Sets the encryption requirement for incoming messages (optional, required, disabled).",
+    ),
 });
 
 export type Config = z.infer<typeof configSchema>;

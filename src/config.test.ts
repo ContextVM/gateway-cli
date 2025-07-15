@@ -60,7 +60,10 @@ Deno.test("Config Loader", async (t) => {
 
         const config = await loadConfig([]);
 
-        assertEquals(config.server, "node src/__mocks__/mock-mcp-server.ts");
+        assertEquals(config.server, [
+          "node",
+          "src/__mocks__/mock-mcp-server.ts",
+        ]);
         assertEquals(config.privateKey, "test-private-key");
         assertEquals(config.relays, [
           "wss://relay.damus.io",
@@ -81,7 +84,7 @@ Deno.test("Config Loader", async (t) => {
     () =>
       withTestContext(async () => {
         const testConfig = {
-          server: "node src/__mocks__/mock-mcp-server.ts",
+          server: ["node", "src/__mocks__/mock-mcp-server.ts"],
           privateKey: "yaml-private-key",
           relays: ["wss://relay.nostr.band", "wss://nostr.public.cat"],
           public: false,
@@ -98,7 +101,10 @@ Deno.test("Config Loader", async (t) => {
 
         const config = await loadConfig([]);
 
-        assertEquals(config.server, "node src/__mocks__/mock-mcp-server.ts");
+        assertEquals(config.server, [
+          "node",
+          "src/__mocks__/mock-mcp-server.ts",
+        ]);
         assertEquals(config.privateKey, "yaml-private-key");
         assertEquals(config.relays, [
           "wss://relay.nostr.band",
@@ -120,7 +126,8 @@ Deno.test("Config Loader", async (t) => {
       withTestContext(async () => {
         const args = [
           "--server",
-          "node src/__mocks__/mock-mcp-server.ts",
+          "node",
+          "src/__mocks__/mock-mcp-server.ts",
           "--private-key",
           "cli-private-key",
           "--relays",
@@ -135,7 +142,10 @@ Deno.test("Config Loader", async (t) => {
         ];
 
         const config = await loadConfig(args);
-        assertEquals(config.server, "node src/__mocks__/mock-mcp-server.ts");
+        assertEquals(config.server, [
+          "node",
+          "src/__mocks__/mock-mcp-server.ts",
+        ]);
         assertEquals(config.privateKey, "cli-private-key");
         assertEquals(config.relays, ["wss://relay.snort.social"]);
         assertEquals(config.public, true);
@@ -168,7 +178,7 @@ Deno.test("Config Loader", async (t) => {
 
         const config = await loadConfig(args);
 
-        assertEquals(config.server, "env-server node-arg"); // From env
+        assertEquals(config.server, ["env-server", "node-arg"]); // From env
         assertEquals(config.privateKey, "yaml-private-key"); // From yaml
         assertEquals(config.relays, ["cli-relay"]); // From cli
       }),

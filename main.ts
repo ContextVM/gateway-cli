@@ -6,9 +6,13 @@ import { SimpleRelayPool } from "@contextvm/sdk/relay/simple-relay-pool";
 import meta from "./deno.json" with { type: "json" };
 import { loadConfig } from "./src/config.ts";
 import { EncryptionMode } from "@contextvm/sdk";
+import { initCommand } from "./src/commands/init.ts";
 function printUsage() {
   console.log(`
-Usage: gateway-cli [OPTIONS]
+Usage: gateway-cli [command|OPTIONS]
+
+Commands:
+  init                                Run the interactive configuration wizard.
 
 Options:
   --server <command> [...args]         The command and arguments to start the MCP server. (Env: GW_SERVER)
@@ -29,7 +33,7 @@ Priority: CLI flags > contextgw.config.yml > environment variables.
 }
 
 const options: ParseOptions = {
-  boolean: ["help", "version"],
+  boolean: ["help", "version", "init"],
   alias: { h: "help", v: "version" },
 };
 const args = parseArgs(Deno.args, options);
@@ -45,6 +49,11 @@ if (args.version) {
 }
 
 async function main() {
+  if (args.init || Deno.args[0] === "init") {
+    await initCommand();
+    Deno.exit(0);
+  }
+
   const config = await loadConfig(Deno.args);
 
   const [command, ...commandArgs] = config.server;
