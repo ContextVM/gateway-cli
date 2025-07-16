@@ -1,14 +1,12 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "tasks": {
     "dev": "deno run --watch main.ts",
     "start": "deno run --allow-run --allow-env --allow-net --allow-read --allow-write main.ts",
     "test": "deno test --allow-read --allow-env --allow-write",
     "compile:linux": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --target x86_64-unknown-linux-gnu --output dist/gateway-cli-linux main.ts",
     "compile:macos": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --target x86_64-apple-darwin --output dist/gateway-cli-macos main.ts",
-    "compile:windows": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --target x86_64-pc-windows-msvc --output dist/gateway-cli-windows.exe main.ts",
-    "changeset": "deno run --unstable --allow-read --allow-write --allow-run https://deno.land/x/deno_changesets/main.ts create",
-    "release": "deno run --unstable --allow-read --allow-write --allow-run https://deno.land/x/deno_changesets/main.ts release"
+    "compile:windows": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --target x86_64-pc-windows-msvc --output dist/gateway-cli-windows.exe main.ts"
   },
   "imports": {
     "@contextvm/sdk": "npm:@contextvm/sdk@^0.1.11",
