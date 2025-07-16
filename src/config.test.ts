@@ -41,12 +41,16 @@ async function withTestContext(testFn: () => Promise<void>) {
 }
 
 Deno.test('Config Loader', async (t) => {
+  const dummyPrivateKey = 'a'.repeat(64);
   await t.step(
     'should load configuration from environment variables',
     () =>
       withTestContext(async () => {
         Deno.env.set('GW_SERVER', 'node src/__mocks__/mock-mcp-server.ts');
-        Deno.env.set('GW_PRIVATE_KEY', 'test-private-key');
+        Deno.env.set(
+          'GW_PRIVATE_KEY',
+          'test-private-key'.concat(dummyPrivateKey),
+        );
         Deno.env.set(
           'GW_RELAYS',
           'wss://relay.damus.io,wss://relay.primal.net',
@@ -64,7 +68,10 @@ Deno.test('Config Loader', async (t) => {
           'node',
           'src/__mocks__/mock-mcp-server.ts',
         ]);
-        assertEquals(config.privateKey, 'test-private-key');
+        assertEquals(
+          config.privateKey,
+          'test-private-key'.concat(dummyPrivateKey),
+        );
         assertEquals(config.relays, [
           'wss://relay.damus.io',
           'wss://relay.primal.net',
@@ -85,7 +92,7 @@ Deno.test('Config Loader', async (t) => {
       withTestContext(async () => {
         const testConfig = {
           server: ['node', 'src/__mocks__/mock-mcp-server.ts'],
-          privateKey: 'yaml-private-key',
+          privateKey: 'yaml-private-key'.concat(dummyPrivateKey),
           relays: ['wss://relay.nostr.band', 'wss://nostr.public.cat'],
           public: false,
           serverInfo: {
@@ -105,7 +112,10 @@ Deno.test('Config Loader', async (t) => {
           'node',
           'src/__mocks__/mock-mcp-server.ts',
         ]);
-        assertEquals(config.privateKey, 'yaml-private-key');
+        assertEquals(
+          config.privateKey,
+          'yaml-private-key'.concat(dummyPrivateKey),
+        );
         assertEquals(config.relays, [
           'wss://relay.nostr.band',
           'wss://nostr.public.cat',
@@ -129,7 +139,7 @@ Deno.test('Config Loader', async (t) => {
           'node',
           'src/__mocks__/mock-mcp-server.ts',
           '--private-key',
-          'cli-private-key',
+          'cli-private-key'.concat(dummyPrivateKey),
           '--relays',
           'wss://relay.snort.social',
           '--public',
@@ -146,7 +156,10 @@ Deno.test('Config Loader', async (t) => {
           'node',
           'src/__mocks__/mock-mcp-server.ts',
         ]);
-        assertEquals(config.privateKey, 'cli-private-key');
+        assertEquals(
+          config.privateKey,
+          'cli-private-key'.concat(dummyPrivateKey),
+        );
         assertEquals(config.relays, ['wss://relay.snort.social']);
         assertEquals(config.public, true);
         assertExists(config.serverInfo);
@@ -162,12 +175,15 @@ Deno.test('Config Loader', async (t) => {
       withTestContext(async () => {
         // 1. Set environment variables (lowest priority)
         Deno.env.set('GW_SERVER', 'env-server node-arg');
-        Deno.env.set('GW_PRIVATE_KEY', 'env-private-key');
+        Deno.env.set(
+          'GW_PRIVATE_KEY',
+          'env-private-key'.concat(dummyPrivateKey),
+        );
         Deno.env.set('GW_RELAYS', 'env-relay1,env-relay2');
 
         // 2. Create YAML file (middle priority)
         const yamlConfig = {
-          privateKey: 'yaml-private-key',
+          privateKey: 'yaml-private-key'.concat(dummyPrivateKey),
           relays: ['yaml-relay'],
         };
         const yamlString = yaml.dump(yamlConfig);
@@ -179,7 +195,10 @@ Deno.test('Config Loader', async (t) => {
         const config = await loadConfig(args);
 
         assertEquals(config.server, ['env-server', 'node-arg']); // From env
-        assertEquals(config.privateKey, 'yaml-private-key'); // From yaml
+        assertEquals(
+          config.privateKey,
+          'yaml-private-key'.concat(dummyPrivateKey),
+        ); // From yaml
         assertEquals(config.relays, ['cli-relay']); // From cli
       }),
   );
