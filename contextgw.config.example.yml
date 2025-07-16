@@ -1,7 +1,10 @@
 # Example configuration for the Nostr MCP Gateway CLI
 
 # The command and arguments to start the MCP server.
-server: ['bun', 'src/__mocks__/mock-mcp-server.ts']
+server:
+  - 'command'
+  - 'arg1'
+  - 'arg2'
 
 # The Nostr private key in hex format.
 privateKey: 'your-private-key'
@@ -26,5 +29,5 @@ allowedPublicKeys:
   - 'pubkey2'
 
 # Optional encryption mode.
-# Can be 'OPTIONAL'(default), 'REQUIRED', or 'DISABLED'.
+# Can be 'optional'(default), 'required', or 'disabled'.
 encryptionMode: 'REQUIERD'

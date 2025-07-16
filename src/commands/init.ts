@@ -40,11 +40,17 @@ function promptForValue(
     }
 
     let parsedValue: string | boolean | undefined | string[] = value;
-    if (schema instanceof z.ZodArray && typeof value === 'string') {
-      parsedValue = value
-        .split(',')
-        .map((item) => item.trim())
-        .filter((item) => item.length > 0);
+    if (schema instanceof z.ZodArray) {
+      if (key === 'server' && typeof value === 'string') {
+        parsedValue = value
+          .match(/[^\s"']+|"([^"]*)"|'([^']*)'/g)
+          ?.map((item) => item.replace(/^['"](.+)['"]$/, '$1')) || [];
+      } else if (typeof value === 'string') {
+        parsedValue = value
+          .split(',')
+          .map((item) => item.trim())
+          .filter((item) => item.length > 0);
+      }
     }
 
     const result = schema.safeParse(parsedValue);
