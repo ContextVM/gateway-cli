@@ -1,4 +1,4 @@
-import { type Config, configSchema } from '../config.ts';
+import { type Config, configSchema, YAML_CONFIG_PATH } from '../config.ts';
 import { dump } from 'npm:js-yaml';
 import { z } from 'npm:zod';
 
@@ -108,10 +108,10 @@ export async function initCommand() {
   console.log(yamlConfig);
 
   const save = confirm(
-    '💾 Do you want to save this configuration to contextgw.config.yml?',
+    `💾 Do you want to save this configuration to ${YAML_CONFIG_PATH}?`,
   );
   if (save) {
-    await Deno.writeTextFile('contextgw.config.yml', yamlConfig);
+    await Deno.writeTextFile(YAML_CONFIG_PATH, yamlConfig);
     console.log('✅ Configuration saved successfully!');
   } else {
     console.log('Configuration not saved.');

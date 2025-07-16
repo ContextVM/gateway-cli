@@ -66,7 +66,7 @@ const ENV_VARS = {
   encryptionMode: `${ENV_PREFIX}ENCRYPTION_MODE`,
 };
 
-const YAML_CONFIG_PATH = 'contextgw.config.yml';
+export const YAML_CONFIG_PATH = 'contextgw.config.yml';
 
 function loadConfigFromEnv(): Partial<Config> {
   const config: Partial<Config> = {};

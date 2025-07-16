@@ -1,7 +1,6 @@
 # Gateway CLI
 
-The `gateway-cli` is a powerful command-line interface (CLI) tool designed as a wrapper around the NostrMCPGateway, forming an integral part of the ContextVM ecosystem. It facilitates flexible configuration and deployment of gateway instances.
-
+The `gateway-cli` is a powerful command-line interface (CLI) tool designed as a wrapper around the NostrMCPGateway, forming an integral part of the ContextVM ecosystem. It allows you to expose your MCP server through the nostr network, facilitating configuration and deployment of your MCP server through nostr.
 ## Overview
 
 This CLI provides a streamlined way to interact with the NostrMCPGateway, enabling you to:
@@ -17,6 +16,10 @@ Its design prioritizes flexibility, allowing configuration parameters to be set 
 3.  **Configuration File (Lowest Priority):** A YAML-based configuration file (`contextgw.config.yml`) provides default settings that can be overridden by environment variables or CLI flags.
 
 This layered approach ensures robust and adaptable deployment scenarios.
+
+## Installation
+
+You can download the latest release from the [releases page](https://github.com/contextvm/gateway-cli/releases).
 
 ## Usage
 
@@ -69,3 +72,21 @@ deno task start --private-key "new-private-key" --relays "wss://relay.snort.soci
 ```
 
 This command will start the gateway, overriding the `privateKey`, `relays`, and `encryptionMode` settings from the configuration file or environment variables if exists with the provided CLI values.
+
+## Development
+
+### Prerequisites
+
+- Deno 2.x
+
+### Running from Source
+
+```bash
+deno task start
+```
+
+### Running Tests
+
+```bash
+deno task test
+```

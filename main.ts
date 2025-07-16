@@ -4,7 +4,7 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import { PrivateKeySigner } from '@contextvm/sdk/signer/private-key-signer';
 import { SimpleRelayPool } from '@contextvm/sdk/relay/simple-relay-pool';
 import meta from './deno.json' with { type: 'json' };
-import { loadConfig } from './src/config.ts';
+import { loadConfig, YAML_CONFIG_PATH } from './src/config.ts';
 import { EncryptionMode } from '@contextvm/sdk';
 import { initCommand } from './src/commands/init.ts';
 function printUsage() {
@@ -27,8 +27,8 @@ Options:
   -h, --help                          Show this help message.
   -v, --version                       Show the version number.
 
-Configuration can also be provided via a 'contextgw.config.yml' file or environment variables.
-Priority: CLI flags > contextgw.config.yml > environment variables.
+Configuration can also be provided via a '${YAML_CONFIG_PATH}' file or environment variables.
+Priority: CLI flags > ${YAML_CONFIG_PATH} > environment variables.
   `);
 }
 

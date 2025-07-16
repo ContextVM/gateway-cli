@@ -1,5 +1,5 @@
 import { assertEquals, assertExists } from 'jsr:@std/assert';
-import { loadConfig } from './config.ts';
+import { loadConfig, YAML_CONFIG_PATH } from './config.ts';
 import * as yaml from 'npm:js-yaml';
 import { EncryptionMode } from '@contextvm/sdk';
 
@@ -23,7 +23,7 @@ async function withTestContext(testFn: () => Promise<void>) {
     testError = e; // Store the error
   } finally {
     try {
-      await Deno.remove('contextgw.config.yml');
+      await Deno.remove(YAML_CONFIG_PATH);
     } catch (error) {
       if (!(error instanceof Deno.errors.NotFound)) {
         // Log the error or handle it, but do not re-throw
@@ -104,7 +104,7 @@ Deno.test('Config Loader', async (t) => {
           encryptionMode: EncryptionMode.DISABLED,
         };
         const yamlString = yaml.dump(testConfig);
-        await Deno.writeTextFile('contextgw.config.yml', yamlString);
+        await Deno.writeTextFile(YAML_CONFIG_PATH, yamlString);
 
         const config = await loadConfig([]);
 
@@ -187,7 +187,7 @@ Deno.test('Config Loader', async (t) => {
           relays: ['yaml-relay'],
         };
         const yamlString = yaml.dump(yamlConfig);
-        await Deno.writeTextFile('contextgw.config.yml', yamlString);
+        await Deno.writeTextFile(YAML_CONFIG_PATH, yamlString);
 
         // 3. Define CLI arguments (highest priority)
         const args = ['--relays', 'cli-relay'];

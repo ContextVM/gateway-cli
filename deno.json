@@ -4,6 +4,7 @@
     "dev": "deno run --watch main.ts",
     "start": "deno run --allow-run --allow-env --allow-net --allow-read --allow-write main.ts",
     "test": "deno test --allow-read --allow-env --allow-write",
+    "compile": "deno compile --allow-net --allow-read --allow-write --allow-env --output dist/gateway-cli main.ts",
     "compile:linux": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --target x86_64-unknown-linux-gnu --output dist/gateway-cli-linux main.ts",
     "compile:macos": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --target x86_64-apple-darwin --output dist/gateway-cli-macos main.ts",
     "compile:windows": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --target x86_64-pc-windows-msvc --output dist/gateway-cli-windows.exe main.ts"
