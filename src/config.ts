@@ -1,8 +1,8 @@
-import { z } from "npm:zod";
-import { deepMerge } from "https://deno.land/std@0.224.0/collections/deep_merge.ts";
-import { load as parseYaml } from "npm:js-yaml";
-import { parseArgs, type ParseOptions } from "@std/cli/parse-args";
-import { EncryptionMode } from "@contextvm/sdk/core";
+import { z } from 'npm:zod';
+import { deepMerge } from 'https://deno.land/std@0.224.0/collections/deep_merge.ts';
+import { load as parseYaml } from 'npm:js-yaml';
+import { parseArgs, type ParseOptions } from '@std/cli/parse-args';
+import { EncryptionMode } from '@contextvm/sdk/core';
 
 const serverInfoSchema = z.object({
   name: z.string().optional(),
@@ -17,8 +17,8 @@ export const configSchema = z.object({
     .describe(
       "The command to start your MCP server (e.g., 'npx -y @mcp/server-echo').",
     ),
-  privateKey: z.string().min(1).describe(
-    "Your unique private key for signing events.",
+  privateKey: z.string().min(64).describe(
+    'Your unique private key in HEX for signing events.',
   ),
   relays: z
     .array(z.string())
@@ -30,14 +30,14 @@ export const configSchema = z.object({
     .boolean()
     .optional()
     .default(false)
-    .describe("If true, the server will be announced publicly."),
+    .describe('If true, the server will be announced publicly.'),
   serverInfo: serverInfoSchema
     .optional()
-    .describe("Optional server metadata (name, picture, website)."),
+    .describe('Optional server metadata (name, picture, website).'),
   allowedPublicKeys: z
     .array(z.string())
     .optional()
-    .describe("A comma-separated list of public keys allowed to connect."),
+    .describe('A comma-separated list of public keys allowed to connect.'),
   encryptionMode: z
     .enum([
       EncryptionMode.OPTIONAL,
@@ -47,13 +47,13 @@ export const configSchema = z.object({
     .optional()
     .default(EncryptionMode.OPTIONAL)
     .describe(
-      "Sets the encryption requirement for incoming messages (optional, required, disabled).",
+      'Sets the encryption requirement for incoming messages (optional, required, disabled).',
     ),
 });
 
 export type Config = z.infer<typeof configSchema>;
 
-const ENV_PREFIX = "GW_";
+const ENV_PREFIX = 'GW_';
 const ENV_VARS = {
   server: `${ENV_PREFIX}SERVER`,
   privateKey: `${ENV_PREFIX}PRIVATE_KEY`,
@@ -66,22 +66,22 @@ const ENV_VARS = {
   encryptionMode: `${ENV_PREFIX}ENCRYPTION_MODE`,
 };
 
-const YAML_CONFIG_PATH = "contextgw.config.yml";
+const YAML_CONFIG_PATH = 'contextgw.config.yml';
 
 function loadConfigFromEnv(): Partial<Config> {
   const config: Partial<Config> = {};
 
   if (Deno.env.get(ENV_VARS.server)) {
-    config.server = Deno.env.get(ENV_VARS.server)?.split(" ");
+    config.server = Deno.env.get(ENV_VARS.server)?.split(' ');
   }
   if (Deno.env.get(ENV_VARS.privateKey)) {
     config.privateKey = Deno.env.get(ENV_VARS.privateKey);
   }
   if (Deno.env.get(ENV_VARS.relays)) {
-    config.relays = Deno.env.get(ENV_VARS.relays)?.split(",");
+    config.relays = Deno.env.get(ENV_VARS.relays)?.split(',');
   }
   if (Deno.env.get(ENV_VARS.public)) {
-    config.public = Deno.env.get(ENV_VARS.public) === "true";
+    config.public = Deno.env.get(ENV_VARS.public) === 'true';
   }
   const serverInfo: Partial<z.infer<typeof serverInfoSchema>> = {};
   if (Deno.env.get(ENV_VARS.serverInfoName)) {
@@ -99,7 +99,7 @@ function loadConfigFromEnv(): Partial<Config> {
   if (Deno.env.get(ENV_VARS.allowedPublicKeys)) {
     config.allowedPublicKeys = Deno.env
       .get(ENV_VARS.allowedPublicKeys)
-      ?.split(",");
+      ?.split(',');
   }
   if (Deno.env.get(ENV_VARS.encryptionMode)) {
     config.encryptionMode = Deno.env.get(
@@ -124,16 +124,16 @@ async function loadConfigFromYaml(): Promise<Partial<Config>> {
 
 function loadConfigFromCli(args: string[]): Partial<Config> {
   const cliOptions: ParseOptions = {
-    boolean: ["help", "version", "public"],
+    boolean: ['help', 'version', 'public'],
     string: [
-      "private-key",
-      "encryption-mode",
-      "server-info-name",
-      "server-info-picture",
-      "server-info-website",
+      'private-key',
+      'encryption-mode',
+      'server-info-name',
+      'server-info-picture',
+      'server-info-website',
     ],
-    collect: ["server", "relays", "allowed-public-keys"],
-    alias: { h: "help", v: "version" },
+    collect: ['server', 'relays', 'allowed-public-keys'],
+    alias: { h: 'help', v: 'version' },
   };
 
   const parsedArgs = parseArgs(args, cliOptions);
@@ -155,25 +155,25 @@ function loadConfigFromCli(args: string[]): Partial<Config> {
     }
   }
 
-  if (parsedArgs["private-key"]) config.privateKey = parsedArgs["private-key"];
+  if (parsedArgs['private-key']) config.privateKey = parsedArgs['private-key'];
   if (parsedArgs.relays) config.relays = parsedArgs.relays;
   if (parsedArgs.public) config.public = parsedArgs.public;
-  if (parsedArgs["allowed-public-keys"]) {
-    config.allowedPublicKeys = parsedArgs["allowed-public-keys"];
+  if (parsedArgs['allowed-public-keys']) {
+    config.allowedPublicKeys = parsedArgs['allowed-public-keys'];
   }
-  if (parsedArgs["encryption-mode"]) {
-    config.encryptionMode = parsedArgs["encryption-mode"] as EncryptionMode;
+  if (parsedArgs['encryption-mode']) {
+    config.encryptionMode = parsedArgs['encryption-mode'] as EncryptionMode;
   }
 
   const serverInfo: Partial<z.infer<typeof serverInfoSchema>> = {};
-  if (parsedArgs["server-info-name"]) {
-    serverInfo.name = parsedArgs["server-info-name"];
+  if (parsedArgs['server-info-name']) {
+    serverInfo.name = parsedArgs['server-info-name'];
   }
-  if (parsedArgs["server-info-picture"]) {
-    serverInfo.picture = parsedArgs["server-info-picture"];
+  if (parsedArgs['server-info-picture']) {
+    serverInfo.picture = parsedArgs['server-info-picture'];
   }
-  if (parsedArgs["server-info-website"]) {
-    serverInfo.website = parsedArgs["server-info-website"];
+  if (parsedArgs['server-info-website']) {
+    serverInfo.website = parsedArgs['server-info-website'];
   }
   if (Object.keys(serverInfo).length > 0) {
     config.serverInfo = serverInfo;
@@ -187,9 +187,9 @@ export async function loadConfig(args: string[]): Promise<Config> {
   const cliConfig = loadConfigFromCli(args);
 
   const mergedConfig = deepMerge(
-    deepMerge(envConfig, yamlConfig, { arrays: "replace" }),
+    deepMerge(envConfig, yamlConfig, { arrays: 'replace' }),
     cliConfig,
-    { arrays: "replace" },
+    { arrays: 'replace' },
   );
 
   return configSchema.parse(mergedConfig);

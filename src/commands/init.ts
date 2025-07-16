@@ -1,6 +1,6 @@
-import { type Config, configSchema } from "../config.ts";
-import { dump } from "npm:js-yaml";
-import { z } from "npm:zod";
+import { type Config, configSchema } from '../config.ts';
+import { dump } from 'npm:js-yaml';
+import { z } from 'npm:zod';
 
 function isBooleanSchema(schema: z.ZodTypeAny): boolean {
   if (schema instanceof z.ZodBoolean) {
@@ -27,8 +27,8 @@ function promptForValue(
     let value: string | undefined | boolean;
     if (isBooleanSchema(schema)) {
       const answer = prompt(`${promptMessage} (y/n)`);
-      if (isOptional && answer === "") return undefined;
-      value = answer?.toLowerCase() === "y";
+      if (isOptional && answer === '') return undefined;
+      value = answer?.toLowerCase() === 'y';
     } else if (isOptional) {
       const response = prompt(`${promptMessage} (optional)`);
       if (!response) {
@@ -36,13 +36,13 @@ function promptForValue(
       }
       value = response;
     } else {
-      value = prompt(promptMessage) ?? "";
+      value = prompt(promptMessage) ?? '';
     }
 
     let parsedValue: string | boolean | undefined | string[] = value;
-    if (schema instanceof z.ZodArray && typeof value === "string") {
+    if (schema instanceof z.ZodArray && typeof value === 'string') {
       parsedValue = value
-        .split(",")
+        .split(',')
         .map((item) => item.trim())
         .filter((item) => item.length > 0);
     }
@@ -62,15 +62,15 @@ export async function initCommand() {
   const config: Partial<Config> = {};
   const shape = configSchema.shape;
 
-  console.log("Welcome to the gateway configuration wizard!");
-  console.log("Please follow the prompts to create your configuration file.");
+  console.log('Welcome to the gateway configuration wizard!');
+  console.log('Please follow the prompts to create your configuration file.');
 
   for (const key in shape) {
     const fieldSchema = shape[key as keyof typeof shape];
 
-    if (key === "serverInfo") {
-      console.log("\n--- Server Metadata (optional) ---");
-      const serverInfo: Partial<Config["serverInfo"]> = {};
+    if (key === 'serverInfo') {
+      console.log('--- Server Metadata (optional) ---');
+      const serverInfo: Partial<Config['serverInfo']> = {};
       const serverInfoSchema = configSchema.shape.serverInfo.def
         .innerType as z.ZodObject<z.ZodRawShape>;
 
@@ -81,7 +81,7 @@ export async function initCommand() {
           subFieldSchema,
           subFieldSchema.safeParse(undefined).success,
         );
-        if (answer !== undefined && answer !== "") {
+        if (answer !== undefined && answer !== '') {
           (serverInfo as Record<string, unknown>)[subKey] = answer;
         }
       }
@@ -97,17 +97,17 @@ export async function initCommand() {
     }
   }
 
-  console.log("\n✅ Configuration complete! Here is your generated config:");
+  console.log('\n✅ Configuration complete! Here is your generated config:');
   const yamlConfig = dump(config);
   console.log(yamlConfig);
 
   const save = confirm(
-    "💾 Do you want to save this configuration to contextgw.config.yml?",
+    '💾 Do you want to save this configuration to contextgw.config.yml?',
   );
   if (save) {
-    await Deno.writeTextFile("contextgw.config.yml", yamlConfig);
-    console.log("✅ Configuration saved successfully!");
+    await Deno.writeTextFile('contextgw.config.yml', yamlConfig);
+    console.log('✅ Configuration saved successfully!');
   } else {
-    console.log("Configuration not saved.");
+    console.log('Configuration not saved.');
   }
 }

@@ -1,12 +1,12 @@
-import { parseArgs, type ParseOptions } from "@std/cli/parse-args";
-import { NostrMCPGateway } from "@contextvm/sdk/gateway";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { PrivateKeySigner } from "@contextvm/sdk/signer/private-key-signer";
-import { SimpleRelayPool } from "@contextvm/sdk/relay/simple-relay-pool";
-import meta from "./deno.json" with { type: "json" };
-import { loadConfig } from "./src/config.ts";
-import { EncryptionMode } from "@contextvm/sdk";
-import { initCommand } from "./src/commands/init.ts";
+import { parseArgs, type ParseOptions } from '@std/cli/parse-args';
+import { NostrMCPGateway } from '@contextvm/sdk/gateway';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { PrivateKeySigner } from '@contextvm/sdk/signer/private-key-signer';
+import { SimpleRelayPool } from '@contextvm/sdk/relay/simple-relay-pool';
+import meta from './deno.json' with { type: 'json' };
+import { loadConfig } from './src/config.ts';
+import { EncryptionMode } from '@contextvm/sdk';
+import { initCommand } from './src/commands/init.ts';
 function printUsage() {
   console.log(`
 Usage: gateway-cli [command|OPTIONS]
@@ -33,8 +33,8 @@ Priority: CLI flags > contextgw.config.yml > environment variables.
 }
 
 const options: ParseOptions = {
-  boolean: ["help", "version", "init"],
-  alias: { h: "help", v: "version" },
+  boolean: ['help', 'version', 'init'],
+  alias: { h: 'help', v: 'version' },
 };
 const args = parseArgs(Deno.args, options);
 
@@ -44,12 +44,12 @@ if (args.help) {
 }
 
 if (args.version) {
-  console.log((meta as { version?: string }).version ?? "0.1.0");
+  console.log((meta as { version?: string }).version ?? '0.1.0');
   Deno.exit(0);
 }
 
 async function main() {
-  if (args.init || Deno.args[0] === "init") {
+  if (args.init || Deno.args[0] === 'init') {
     await initCommand();
     Deno.exit(0);
   }
@@ -57,7 +57,7 @@ async function main() {
   const config = await loadConfig(Deno.args);
 
   const [command, ...commandArgs] = config.server;
-  console.log("Starting MCP server:", command, ...commandArgs);
+  console.log('Starting MCP server:', command, ...commandArgs);
   const mcpServerTransport = new StdioClientTransport({
     command: command,
     args: commandArgs,
@@ -79,25 +79,24 @@ async function main() {
   });
 
   await gateway.start();
-
   const shutdown = async () => {
     if (gateway) {
       try {
         await gateway.stop();
       } catch (error) {
-        console.error("Error stopping NostrMCPGateway:", error);
+        console.error('Error stopping NostrMCPGateway:', error);
       }
     }
     Deno.exit(0);
   };
 
-  Deno.addSignalListener("SIGINT", shutdown);
-  Deno.addSignalListener("SIGTERM", shutdown);
+  Deno.addSignalListener('SIGINT', shutdown);
+  Deno.addSignalListener('SIGTERM', shutdown);
 }
 
 if (import.meta.main) {
   main().catch((error) => {
-    console.error("Failed to start gateway:", error);
+    console.error('Failed to start gateway:', error);
     Deno.exit(1);
   });
 }

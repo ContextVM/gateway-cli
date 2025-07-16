@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
       - name: Set up Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: "2.4.1"
+          deno-version: '2.4.1'
 
       - name: Get version from tag
         id: get_version
@@ -36,9 +36,9 @@ jobs:
       - name: Rename binaries with version info
         run: |
           cd dist
-          cp gateway-cli-linux gateway-cli-linux-${{ env.VERSION }}
-          cp gateway-cli-macos gateway-cli-macos-${{ env.VERSION }}
-          cp gateway-cli-windows.exe gateway-cli-windows-${{ env.VERSION }}.exe
+          mv gateway-cli-linux gateway-cli-linux-${{ env.VERSION }}
+          mv gateway-cli-macos gateway-cli-macos-${{ env.VERSION }}
+          mv gateway-cli-windows.exe gateway-cli-windows-${{ env.VERSION }}.exe
 
       - name: Create GitHub Release
         id: create_release
@@ -75,9 +75,6 @@ jobs:
             gateway-cli-windows-${{ env.VERSION }}.exe
             ```
           files: |
-            dist/gateway-cli-linux
-            dist/gateway-cli-macos
-            dist/gateway-cli-windows.exe
             dist/gateway-cli-linux-${{ env.VERSION }}
             dist/gateway-cli-macos-${{ env.VERSION }}
             dist/gateway-cli-windows-${{ env.VERSION }}.exe

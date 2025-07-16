@@ -5,7 +5,7 @@
     "jsr:@std/assert@1": "1.0.13",
     "jsr:@std/cli@^1.0.20": "1.0.20",
     "jsr:@std/internal@^1.0.6": "1.0.9",
-    "npm:@contextvm/sdk@~0.1.10": "0.1.10_typescript@5.8.3",
+    "npm:@contextvm/sdk@~0.1.11": "0.1.11_typescript@5.8.3",
     "npm:@modelcontextprotocol/sdk@^1.15.1": "1.15.1_express@5.1.0_zod@3.25.76",
     "npm:@types/js-yaml@^4.0.9": "4.0.9",
     "npm:@types/node@*": "22.15.15",
@@ -29,8 +29,8 @@
     }
   },
   "npm": {
-    "@contextvm/sdk@0.1.10_typescript@5.8.3": {
-      "integrity": "sha512-EZRwqZnsCqRAnuYTRJdRDYP2GK61LAjjz4fvUqmZvLwbc4/26Hf0x8h3W87iVkUjGayOgE8surssK10eyOzjpw==",
+    "@contextvm/sdk@0.1.11_typescript@5.8.3": {
+      "integrity": "sha512-gQgjUC+hZmB0gdWfKXzSVRmbhGDjmRzeQuf4uEFQ4ByuE9Ok1CFCA8bFdK1l1BBl9wkVFhVhcxWp1uWYD7D78g==",
       "dependencies": [
         "@modelcontextprotocol/sdk",
         "nostr-tools",
@@ -625,7 +625,7 @@
     "dependencies": [
       "jsr:@std/assert@1",
       "jsr:@std/cli@^1.0.20",
-      "npm:@contextvm/sdk@~0.1.10",
+      "npm:@contextvm/sdk@~0.1.11",
       "npm:@modelcontextprotocol/sdk@^1.15.1",
       "npm:@types/js-yaml@^4.0.9",
       "npm:js-yaml@^4.1.0",
