@@ -3,6 +3,12 @@
 The `gateway-cli` is a command-line interface (CLI) tool designed as a wrapper around the NostrMCPGateway, forming an integral part of the ContextVM ecosystem. It allows you to expose your MCP server through the nostr network, facilitating configuration and deployment of your MCP server through nostr.
 ## Overview
 
+
+## Quick Start
+```bash
+curl -fsSL https://raw.githubusercontent.com/contextvm/gateway-cli/main/install.sh | bash
+```
+
 This CLI provides a streamlined way to interact with the NostrMCPGateway, enabling you to:
 - Define and manage server parameters.
 - Configure Nostr relays for communication.
@@ -20,6 +26,8 @@ This layered approach ensures robust and adaptable deployment scenarios.
 ## Installation
 
 ### From binaries
+
+**💡Tip:** You can use the [Quick Start](#quick-start) method to install the CLI. If you prefer to install it manually, you can follow the instructions below.
 
 **💡Tip:** Choose this installation method if you don't have Deno installed in your system, and you dont want to install it.
 You can download the latest release from the [releases page](https://github.com/contextvm/gateway-cli/releases).
