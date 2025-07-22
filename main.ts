@@ -5,7 +5,7 @@ import { PrivateKeySigner } from '@contextvm/sdk/signer/private-key-signer';
 import { SimpleRelayPool } from '@contextvm/sdk/relay/simple-relay-pool';
 import meta from './deno.json' with { type: 'json' };
 import { loadConfig, YAML_CONFIG_PATH } from './src/config.ts';
-import { EncryptionMode } from '@contextvm/sdk';
+import type { EncryptionMode } from '@contextvm/sdk';
 import { initCommand } from './src/commands/init.ts';
 function printUsage() {
   console.log(`

@@ -192,5 +192,16 @@ export async function loadConfig(args: string[]): Promise<Config> {
     { arrays: 'replace' },
   );
 
-  return configSchema.parse(mergedConfig);
+  const parsedConfig = configSchema.safeParse(mergedConfig);
+
+  if (!parsedConfig.success) {
+    const flatError = z.treeifyError(parsedConfig.error);
+    throw new Error(
+      `Invalid configuration: ${
+        JSON.stringify(flatError.properties, null, 2)
+      } \n\n You have to provide the required fields, using flags, enviroment variables, or run the '--init' command to generate a config file\n\n`,
+    );
+  }
+
+  return parsedConfig.data;
 }

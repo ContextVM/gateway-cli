@@ -1,6 +1,6 @@
 # Gateway CLI
 
-The `gateway-cli` is a powerful command-line interface (CLI) tool designed as a wrapper around the NostrMCPGateway, forming an integral part of the ContextVM ecosystem. It allows you to expose your MCP server through the nostr network, facilitating configuration and deployment of your MCP server through nostr.
+The `gateway-cli` is a command-line interface (CLI) tool designed as a wrapper around the NostrMCPGateway, forming an integral part of the ContextVM ecosystem. It allows you to expose your MCP server through the nostr network, facilitating configuration and deployment of your MCP server through nostr.
 ## Overview
 
 This CLI provides a streamlined way to interact with the NostrMCPGateway, enabling you to:
@@ -19,7 +19,25 @@ This layered approach ensures robust and adaptable deployment scenarios.
 
 ## Installation
 
+### From binaries
+
+**💡Tip:** Choose this installation method if you don't have Deno installed in your system, and you dont want to install it.
 You can download the latest release from the [releases page](https://github.com/contextvm/gateway-cli/releases).
+
+**Instructions:**
+- Pick the appropriate binary for your system (Linux, macOS, Windows).
+- Download the binary and make it executable (e.g., `chmod +x gateway-cli-linux`).
+- Move the binary to a directory in your system's PATH (e.g., `/usr/local/bin`).
+
+### With Deno
+
+**💡Tip:** This installation method is recommended if you have Deno installed in your system.
+
+**Instructions:**
+- You can just run it with `deno run -A jsr:@contextvm/gateway-cli`.
+- You can also install it with `deno install -A gateway-cli jsr:@contextvm/gateway-cli`.
+
+**Note:** The `-A` flag grants the cli all the permissions, if you want to run or install it with scoped permissions, you can use `deno run --allow-run --allow-env --allow-net --allow-read --allow-write jsr:@contextvm/gateway-cli`.
 
 ## Usage
 
@@ -55,12 +73,12 @@ encryptionMode: "REQUIRED" # Options: REQUIRED, OPTIONAL, DISABLED
 
 ### Running the Gateway CLI
 
-You can run the `gateway-cli` using `deno`.
+You can run the `gateway-cli` using the methods described above.
 
 **Using `deno`:**
 
 ```bash
-deno task start [options]
+deno run -A jsr:@contextvm/gateway-cli [options]
 ```
 
 Replace `[options]` with CLI flags to override configuration settings.
@@ -68,10 +86,10 @@ Replace `[options]` with CLI flags to override configuration settings.
 **Example with CLI flags:**
 
 ```bash
-deno task start --private-key "new-private-key" --relays "wss://relay.snort.social" --encryption-mode "OPTIONAL"
+deno run -A jsr:@contextvm/gateway-cli --private-key "private-key" --relays "wss://relay.com" --server command arg1 arg2 --server-info-name "My MCP server over nostr" --server-info-picture "https://example.com/logo.png" --server-info-website "https://example.com" --allowed-public-keys "pubkey1,pubkey2" --encryption-mode "REQUIRED"
 ```
 
-This command will start the gateway, overriding the `privateKey`, `relays`, and `encryptionMode` settings from the configuration file or environment variables if exists with the provided CLI values.
+This command will start the gateway, overriding the settings from the configuration file or environment variables if exists with the provided CLI values.
 
 ## Development
 
