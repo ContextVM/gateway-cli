@@ -1,6 +1,6 @@
 import { type Config, configSchema, YAML_CONFIG_PATH } from '../config.ts';
-import { dump } from 'npm:js-yaml';
-import { z } from 'npm:zod';
+import { dump } from 'js-yaml';
+import { z } from 'zod';
 
 function isBooleanSchema(schema: z.ZodTypeAny): boolean {
   if (schema instanceof z.ZodBoolean) {

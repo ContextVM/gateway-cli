@@ -4,6 +4,7 @@
     "jsr:@std/assert@*": "1.0.13",
     "jsr:@std/assert@1": "1.0.13",
     "jsr:@std/cli@^1.0.20": "1.0.20",
+    "jsr:@std/collections@^1.0.5": "1.1.2",
     "jsr:@std/internal@^1.0.6": "1.0.9",
     "npm:@contextvm/sdk@~0.1.11": "0.1.11_typescript@5.8.3",
     "npm:@modelcontextprotocol/sdk@^1.15.1": "1.15.1_express@5.1.0_zod@3.25.76",
@@ -23,6 +24,9 @@
     },
     "@std/cli@1.0.20": {
       "integrity": "a8c384a2c98cec6ec6a2055c273a916e2772485eb784af0db004c5ab8ba52333"
+    },
+    "@std/collections@1.1.2": {
+      "integrity": "f1685dd45c3ec27c39d0e8a642ccf810f391ec8a6cb5e7355926e6dacc64c43e"
     },
     "@std/internal@1.0.9": {
       "integrity": "bdfb97f83e4db7a13e8faab26fb1958d1b80cc64366501af78a0aee151696eb8"
@@ -625,6 +629,7 @@
     "dependencies": [
       "jsr:@std/assert@1",
       "jsr:@std/cli@^1.0.20",
+      "jsr:@std/collections@^1.0.5",
       "npm:@contextvm/sdk@~0.1.11",
       "npm:@modelcontextprotocol/sdk@^1.15.1",
       "npm:@types/js-yaml@^4.0.9",

@@ -1,6 +1,6 @@
-import { z } from 'npm:zod';
-import { deepMerge } from 'https://deno.land/std@0.224.0/collections/deep_merge.ts';
-import { load as parseYaml } from 'npm:js-yaml';
+import { z } from 'zod';
+import { deepMerge } from '@std/collections/deep-merge';
+import { load as parseYaml } from 'js-yaml';
 import { parseArgs, type ParseOptions } from '@std/cli/parse-args';
 import { EncryptionMode } from '@contextvm/sdk/core';
 
