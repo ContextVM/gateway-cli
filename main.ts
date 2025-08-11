@@ -61,7 +61,7 @@ async function main() {
 
   const [command, ...commandArgs] = config.server;
   console.log('Starting MCP server:', command, ...commandArgs);
-  const mcpServerTransport = new StdioClientTransport({
+  const mcpClientTransport = new StdioClientTransport({
     command: command,
     args: commandArgs,
   });
@@ -70,7 +70,7 @@ async function main() {
   const relayPool = new ApplesauceRelayPool(config.relays);
 
   const gateway = new NostrMCPGateway({
-    mcpServerTransport,
+    mcpClientTransport,
     nostrTransportOptions: {
       signer,
       relayHandler: relayPool,
