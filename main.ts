@@ -2,11 +2,11 @@ import { parseArgs, type ParseOptions } from '@std/cli/parse-args';
 import { NostrMCPGateway } from '@contextvm/sdk/gateway';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { PrivateKeySigner } from '@contextvm/sdk/signer/private-key-signer';
-import { SimpleRelayPool } from '@contextvm/sdk/relay/simple-relay-pool';
 import meta from './deno.json' with { type: 'json' };
 import { loadConfig, YAML_CONFIG_PATH } from './src/config.ts';
 import type { EncryptionMode } from '@contextvm/sdk';
 import { initCommand } from './src/commands/init.ts';
+import { ApplesauceRelayPool } from '@contextvm/sdk/relay';
 function printUsage() {
   console.log(`
 Usage: gateway-cli [command|OPTIONS]
@@ -64,7 +64,7 @@ async function main() {
   });
 
   const signer = new PrivateKeySigner(config.privateKey);
-  const relayPool = new SimpleRelayPool(config.relays);
+  const relayPool = new ApplesauceRelayPool(config.relays);
 
   const gateway = new NostrMCPGateway({
     mcpServerTransport,
