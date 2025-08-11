@@ -1,5 +1,5 @@
 {
-  "version": "0.1.10",
+  "version": "0.1.11",
   "name": "@contextvm/gateway-cli",
   "description": "A CLI tool for managing NostrMCPGateway instances.",
   "homepage": "https://github.com/contextvm/gateway-cli",
