@@ -1,5 +1,5 @@
 {
-  "version": "0.1.9",
+  "version": "0.1.10",
   "name": "@contextvm/gateway-cli",
   "description": "A CLI tool for managing NostrMCPGateway instances.",
   "homepage": "https://github.com/contextvm/gateway-cli",
@@ -13,7 +13,7 @@
     "compile:windows": "deno compile --allow-run --allow-read --allow-write --allow-net --allow-env --target x86_64-pc-windows-msvc --output dist/gateway-cli-windows.exe main.ts"
   },
   "imports": {
-    "@contextvm/sdk": "npm:@contextvm/sdk@^0.1.18",
+    "@contextvm/sdk": "npm:@contextvm/sdk@^0.1.19",
     "@modelcontextprotocol/sdk": "npm:@modelcontextprotocol/sdk@^1.17.2",
     "@std/assert": "jsr:@std/assert@1",
     "@std/cli": "jsr:@std/cli@^1.0.21",
