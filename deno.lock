@@ -6,7 +6,7 @@
     "jsr:@std/cli@^1.0.21": "1.0.21",
     "jsr:@std/collections@^1.0.5": "1.1.2",
     "jsr:@std/internal@^1.0.6": "1.0.9",
-    "npm:@contextvm/sdk@~0.1.21": "0.1.21_typescript@5.9.2",
+    "npm:@contextvm/sdk@~0.1.22": "0.1.22_typescript@5.9.2",
     "npm:@modelcontextprotocol/sdk@^1.17.2": "1.17.2_express@5.1.0_zod@3.25.76",
     "npm:@types/js-yaml@^4.0.9": "4.0.9",
     "npm:@types/node@*": "22.15.15",
@@ -32,8 +32,8 @@
     }
   },
   "npm": {
-    "@contextvm/sdk@0.1.21_typescript@5.9.2": {
-      "integrity": "sha512-vIw98vz0zAvaepdh2JjMRkTtiIUFLyCyJHkrNtRrpnOxDzfCftGWuqWMoR07mxGJKNxOUN7G+SKjo50Hy/PZDA==",
+    "@contextvm/sdk@0.1.22_typescript@5.9.2": {
+      "integrity": "sha512-scGa1Hk/JvJoeC2uCO2ZHlHAA/vj3j+E/Fthu0LJq9OYA3fHADo29OLXLMJV8xr5IbmzD0tL1iKHe8MRZP41cg==",
       "dependencies": [
         "@modelcontextprotocol/sdk",
         "applesauce-relay",
@@ -682,7 +682,7 @@
       "jsr:@std/assert@1",
       "jsr:@std/cli@^1.0.21",
       "jsr:@std/collections@^1.0.5",
-      "npm:@contextvm/sdk@~0.1.21",
+      "npm:@contextvm/sdk@~0.1.22",
       "npm:@modelcontextprotocol/sdk@^1.17.2",
       "npm:@types/js-yaml@^4.0.9",
       "npm:js-yaml@^4.1.0",
