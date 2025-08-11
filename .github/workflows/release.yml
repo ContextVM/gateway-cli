@@ -28,6 +28,9 @@ jobs:
           # Ensure dist directory exists
           mkdir -p dist
 
+          # Set version environment variable for the binary
+          export GATEWAY_CLI_VERSION=${{ env.VERSION }}
+
           # Build all platforms
           deno task compile:linux
           deno task compile:macos

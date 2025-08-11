@@ -44,7 +44,10 @@ if (args.help) {
 }
 
 if (args.version) {
-  console.log((meta as { version?: string }).version ?? '0.1.0');
+  // Read from environment variable or fallback to deno.json
+  const version = Deno.env.get('GATEWAY_CLI_VERSION') ||
+    ((meta as { version?: string }).version ?? '0.1.0');
+  console.log(version);
   Deno.exit(0);
 }
 
