@@ -8,6 +8,7 @@ const serverInfoSchema = z.object({
   name: z.string().optional(),
   picture: z.string().optional(),
   website: z.string().optional(),
+  about: z.string().optional(),
 });
 
 export const configSchema = z.object({
@@ -62,6 +63,7 @@ const ENV_VARS = {
   serverInfoName: `${ENV_PREFIX}SERVER_INFO_NAME`,
   serverInfoPicture: `${ENV_PREFIX}SERVER_INFO_PICTURE`,
   serverInfoWebsite: `${ENV_PREFIX}SERVER_INFO_WEBSITE`,
+  serverInfoAbout: `${ENV_PREFIX}SERVER_INFO_ABOUT`,
   allowedPublicKeys: `${ENV_PREFIX}ALLOWED_PUBLIC_KEYS`,
   encryptionMode: `${ENV_PREFIX}ENCRYPTION_MODE`,
 };
@@ -92,6 +94,9 @@ function loadConfigFromEnv(): Partial<Config> {
   }
   if (Deno.env.get(ENV_VARS.serverInfoWebsite)) {
     serverInfo.website = Deno.env.get(ENV_VARS.serverInfoWebsite);
+  }
+  if (Deno.env.get(ENV_VARS.serverInfoAbout)) {
+    serverInfo.about = Deno.env.get(ENV_VARS.serverInfoAbout);
   }
   if (Object.keys(serverInfo).length > 0) {
     config.serverInfo = serverInfo;
@@ -174,6 +179,9 @@ function loadConfigFromCli(args: string[]): Partial<Config> {
   }
   if (parsedArgs['server-info-website']) {
     serverInfo.website = parsedArgs['server-info-website'];
+  }
+  if (parsedArgs['server-info-about']) {
+    serverInfo.about = parsedArgs['server-info-about'];
   }
   if (Object.keys(serverInfo).length > 0) {
     config.serverInfo = serverInfo;
